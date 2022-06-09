@@ -13,6 +13,7 @@
 		70F35DAE28522AF4001AE33D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70F35DAC28522AF4001AE33D /* Main.storyboard */; };
 		70F35DB028522AF5001AE33D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70F35DAF28522AF5001AE33D /* Assets.xcassets */; };
 		70F35DB328522AF5001AE33D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70F35DB128522AF5001AE33D /* LaunchScreen.storyboard */; };
+		70F35DBC28522B16001AE33D /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F35DBB28522B16001AE33D /* DataController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		70F35DAF28522AF5001AE33D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70F35DB228522AF5001AE33D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		70F35DB428522AF5001AE33D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70F35DBB28522B16001AE33D /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		70F35DA528522AF4001AE33D /* VirtualTouristProject */ = {
 			isa = PBXGroup;
 			children = (
+				70F35DBA28522AFE001AE33D /* Model */,
 				70F35DA628522AF4001AE33D /* AppDelegate.swift */,
 				70F35DA828522AF4001AE33D /* SceneDelegate.swift */,
 				70F35DAA28522AF4001AE33D /* ViewController.swift */,
@@ -65,6 +68,14 @@
 				70F35DB428522AF5001AE33D /* Info.plist */,
 			);
 			path = VirtualTouristProject;
+			sourceTree = "<group>";
+		};
+		70F35DBA28522AFE001AE33D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				70F35DBB28522B16001AE33D /* DataController.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -139,6 +150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				70F35DAB28522AF4001AE33D /* ViewController.swift in Sources */,
+				70F35DBC28522B16001AE33D /* DataController.swift in Sources */,
 				70F35DA728522AF4001AE33D /* AppDelegate.swift in Sources */,
 				70F35DA928522AF4001AE33D /* SceneDelegate.swift in Sources */,
 			);
