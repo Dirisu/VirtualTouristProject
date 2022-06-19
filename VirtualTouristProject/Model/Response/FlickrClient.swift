@@ -60,13 +60,10 @@ class FlickrClient {
         }
     
     class func getPhotos(latitude : Double, longitude : Double, completion : @escaping(FlickrResponse?, Error?)->Void){
-        // discardable result
         _ = taskForGetRequest(url: Endpoints.getPhotos(latitude, longitude).url, responseType: FlickrResponse.self) { response, error in
             
                 if let response = response{
                     completion(response.self, nil)
-                    
-//                    print(response)
                     
                 }else{
                     completion(nil, error)
@@ -74,6 +71,7 @@ class FlickrClient {
             }
             
         }
+    
         
         class func downloadPhotos(imageUrl : URL, completion : @escaping(Data?, Error?) throws -> Void){
             let task = URLSession.shared.dataTask(with: imageUrl) { data, response, error in
