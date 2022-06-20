@@ -12,6 +12,8 @@ import CoreData
 
 class PhotoAlbumViewController: UIViewController,  MKMapViewDelegate, NSFetchedResultsControllerDelegate,UICollectionViewDelegate, UICollectionViewDataSource {
     
+//    var photo: [NSData] = []
+    
     var pin : Pins!
     var photo: Photos!
     var dataController : DataController!
@@ -54,15 +56,11 @@ class PhotoAlbumViewController: UIViewController,  MKMapViewDelegate, NSFetchedR
     func getPhotos(){
         if fetchedResultController.fetchedObjects?.count == 0 {
             FlickrClient.getPhotos(latitude: pin.latitude, longitude: pin.longitude) { response, error in
-                if error == nil && response?.photos.photo != nil && response?.photos.total != 0{
+                if error == nil && response?.photos.photo != nil {
                     guard let response = response else {return}
                     for image in response.photos.photo{
-                        let photo = Photos(context: self.dataController.viewContext)
-                        photo.creationDate = Date()
-                        
-                        photo.imageURL = "https://live.staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
-                        
-                        photo.pin = self.pin
+                        self.photo.imageURL = "https://live.staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
+                        self.photo.pin = self.pin
                         do {
                             try self.dataController.viewContext.save()
                         } catch  {
@@ -70,17 +68,19 @@ class PhotoAlbumViewController: UIViewController,  MKMapViewDelegate, NSFetchedR
                         }
                         self.collectionView.reloadData()
                     }
-                    print("photo saved successfully")
-                    
-                }else{
-                    print("No downloaded photo")
+                    print("album saved")
+ 
+                } else {
+                    print("No photo downloaded")
                     
                 }
             }
-        } else {
+        }else{
             return
         }
-    }
+}
+        
+    
     
     func setUpFetchedResultController(){
         let fetchRequest : NSFetchRequest<Photos> = Photos.fetchRequest()
@@ -152,8 +152,7 @@ class PhotoAlbumViewController: UIViewController,  MKMapViewDelegate, NSFetchedR
             
         } else{
             
-            let placeholderImage = UIImage(systemName: "Flickr")
-            cell.imageCell.image = placeholderImage
+            print("no photo data")
         }
         return cell
     }

@@ -62,7 +62,7 @@ class FlickrClient {
     class func getPhotos(latitude : Double, longitude : Double, completion : @escaping(FlickrResponse?, Error?)->Void){
         _ = taskForGetRequest(url: Endpoints.getPhotos(latitude, longitude).url, responseType: FlickrResponse.self) { response, error in
             
-                if let response = response{
+                if let response = response {
                     completion(response.self, nil)
                     
                 }else{
