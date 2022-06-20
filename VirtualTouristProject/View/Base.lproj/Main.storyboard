@@ -33,7 +33,7 @@
                     <navigationItem key="navigationItem" id="bEu-7S-X3g"/>
                     <connections>
                         <outlet property="mapView" destination="WV3-9V-tLt" id="sM8-ay-Rv9"/>
-                        <segue destination="JtB-K3-WXu" kind="show" id="yv1-jx-Vzd"/>
+                        <segue destination="JtB-K3-WXu" kind="show" identifier="PhotoAlbumViewController" id="yv1-jx-Vzd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -43,7 +43,7 @@
         <!--Photo Album View Controller-->
         <scene sceneID="ehI-xc-Z12">
             <objects>
-                <viewController id="JtB-K3-WXu" customClass="PhotoAlbumViewController" customModule="VirtualTouristProject" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoAlbumViewController" id="JtB-K3-WXu" customClass="PhotoAlbumViewController" customModule="VirtualTouristProject" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lKI-bc-VkC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -57,6 +57,9 @@
                                 <buttonConfiguration key="configuration" style="plain" title="New Collection">
                                     <fontDescription key="titleFontDescription" type="system" pointSize="25"/>
                                 </buttonConfiguration>
+                                <connections>
+                                    <action selector="collectionButtonTapped:" destination="JtB-K3-WXu" eventType="touchUpInside" id="7gB-sN-Lq8"/>
+                                </connections>
                             </button>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="7p9-N0-ZR9">
                                 <rect key="frame" x="0.0" y="88" width="414" height="170"/>
