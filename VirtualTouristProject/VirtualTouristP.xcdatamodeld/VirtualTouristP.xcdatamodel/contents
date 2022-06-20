@@ -5,14 +5,16 @@
         <attribute name="image" optional="YES" attributeType="Binary"/>
         <attribute name="imageURL" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="pin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pins" inverseName="photos" inverseEntity="Pins"/>
     </entity>
     <entity name="Pins" representedClassName="Pins" syncable="YES" codeGenerationType="class">
         <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="photos" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Photos" inverseName="pin" inverseEntity="Photos"/>
     </entity>
     <elements>
-        <element name="Pins" positionX="-335.4765625" positionY="-3.81640625" width="133.55078125" height="74"/>
-        <element name="Photos" positionX="-54" positionY="-9" width="128" height="89"/>
+        <element name="Photos" positionX="-152.546875" positionY="-9.84765625" width="128" height="118"/>
+        <element name="Pins" positionX="-461.58203125" positionY="-2.35546875" width="133.55078125" height="103"/>
     </elements>
 </model>
