@@ -66,7 +66,6 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, NSFe
         if gestureRecognizer.state == .began {
             let touchedPoint = gestureRecognizer.location(in: self.mapView)
             
-
             let touchedCoordinates = self.mapView.convert(touchedPoint, toCoordinateFrom: self.mapView)
             
             let annotation = MKPointAnnotation()
@@ -85,13 +84,13 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, NSFe
         do {
             try dataController?.viewContext.save()
         } catch {
-            
             fatalError("Pin cannot be added :\(error.localizedDescription)")
         }
         
         setUpFetchResultsController()
     }
     
+    // set map view
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let reuseId = "pin"
         var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
@@ -110,6 +109,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, NSFe
         let latitudeClicked = view.annotation?.coordinate.latitude
         let longitudeClicked = view.annotation?.coordinate.longitude
         
+        // segue action
         if let pins = fetchedResultsController.fetchedObjects{
             for pin in pins {
                 if pin.latitude == latitudeClicked && pin.longitude == longitudeClicked {

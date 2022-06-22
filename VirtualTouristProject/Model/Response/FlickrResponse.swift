@@ -7,29 +7,60 @@
 
 import Foundation
 
-struct FlickrResponse: Decodable {
+//struct FlickrResponse: Codable {
+//
+//    let photos: PhotosResult
+//    let stat: String
+//}
+//
+//struct PhotosResult : Codable {
+//    let page: Int
+//    let pages: Int
+//    let perpage: Int
+//    let total: Int
+//    let photo: [FlickrPhoto]
+//
+//}
+//
+//struct FlickrPhoto : Codable {
+//    let id: String
+//    let owner: String
+//    let secret: String
+//    let server: String
+//    let farm: Int
+//    let title: String
+//    let ispublic: Int
+//    let isfriend: Int
+//    let isfamily: Int
+//}
 
-    let photos: PhotosResult
-    let stat: String
+struct FlickrResponse: Codable {
+    let photos: PhotoResult
+    let status: String
+    
+    enum CodingKeys: String, CodingKey {
+        case photos = "photos"
+        case status = "stat"
+    }
 }
 
-struct PhotosResult : Decodable {
-    let page:Int
-    let pages:Int
-    let perpage:Int
+struct PhotoResult: Codable {
+    let page: Int
+    let pages: Int
+    let perpage: Int
     let total: Int
-    let photo:[FlickrPhoto]
-
+    let photo: [FlickrPhoto]
 }
 
-struct FlickrPhoto : Decodable {
-    let id:String
-    let owner:String
-    let secret:String
-    let server:String
-    let farm:Int
-    let title:String
-    let ispublic:Int
-    let isfriend:Int
-    let isfamily:Int
+struct FlickrPhoto: Codable {
+    let id: String
+    let owner: String
+    let secret: String
+    let server: String
+    let farm: Int
+    let title: String
+    let ispublic: Int
+    let isfriend: Int
+    let isfamily: Int
+    
 }
