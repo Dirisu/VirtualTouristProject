@@ -14,6 +14,10 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     
     var pin : Pins!
     var photo: [Photos]! = []
+    
+    var photoArrays = [String]()
+    var photosDb: [NSManagedObject] = []
+    
     var dataController : DataController!
     var fetchedResultsController: NSFetchedResultsController<Photos>!
     
@@ -51,9 +55,10 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     }
     
     func getPhotos(){
-
+        
         if fetchedResultsController.fetchedObjects?.count == 0 {
             FlickrClient.getPhotos(latitude: pin.latitude, longitude: pin.longitude) { [self] response, error in
+                
                 if error == nil && response?.photos.photo != nil && response?.photos.total != 0 {
                     guard let response = response
                     else {return}
@@ -62,18 +67,18 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
                         photo.creationDate = Date()
                         photo.imageURL = "https://live.staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
                         photo.pin = self.pin
-
+                        
                         do {
                             try self.dataController.viewContext.save()
                         } catch {
                             fatalError("Unable to save photos: \(error.localizedDescription)")
                         }
-
+                        
                         self.collectionView.reloadData()
                     }
                     print("album saved")
                     self.collectionView.reloadData()
-
+                    
                 } else {
                     print("No photo downloaded")
                 }
@@ -117,19 +122,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
         }
     }
     
-    func handleDownload(data: Data?, error: Error?) {
-        if error != nil {
-            print("error in downloading data from a photo")
-        } else {
-            if data != nil {
-                try? dataController.viewContext.save()
-                print("one photo is saved")
-                
-            }
-        }
-        
-    }
-    
     // collections delegates and data source
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return fetchedResultsController.sections?.count ?? 1
@@ -147,21 +139,23 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
         
-        
-        // image from coreData
-        if let image = photo.image {
-            cell.imageCell.image = UIImage(data: image)
-            print("photo visible")
-        }
-
-        else{
-
-            print("no photo data")
+        DispatchQueue.main.async {
+            if let url = photo.imageURL {
+                if let image = photo.image {
+                    FlickrClient.downloadPhotos(imageURL: URL(string: url)!) { data, error in
+                        
+                            try? self.dataController.viewContext.save()
+                        cell.imageCell.image = UIImage(data: image)
+                            print("photo visible")
+                    }
+                }
+            }
+            else {
+                print("no data")
+            }
         }
         
         return cell
-        
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

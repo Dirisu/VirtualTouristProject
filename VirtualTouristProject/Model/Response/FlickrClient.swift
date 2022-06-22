@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class FlickrClient {
     
@@ -94,17 +95,10 @@ class FlickrClient {
         }
     }
     
-    
-    class func downloadPhotos(imageUrl : URL, completion : @escaping (Data?, Error?) throws -> Void) {
-        let task = URLSession.shared.dataTask(with: imageUrl) { data, response, error in
-            guard let data = data else {
-                DispatchQueue.main.async {
-                    try? completion(nil, error)
-                }
-                return
-            }
+    class func downloadPhotos(imageURL: URL, completion: @escaping (Data?, Error?) -> Void) {
+        let task = URLSession.shared.dataTask(with: imageURL) { data, response, error in
             DispatchQueue.main.async {
-                try? completion(data, nil)
+                completion(data, error)
             }
         }
         task.resume()
