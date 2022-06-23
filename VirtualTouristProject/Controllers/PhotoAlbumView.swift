@@ -15,8 +15,8 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     var pin : Pins!
     var photo: [Photos]! = []
     
-    var photoArrays = [String]()
-    var photosDb: [NSManagedObject] = []
+//    var photoArrays = [String]()
+//    var photosDb: [NSManagedObject] = []
     
     var dataController : DataController!
     var fetchedResultsController: NSFetchedResultsController<Photos>!
@@ -72,25 +72,51 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     func getPhotos(){
         
         if fetchedResultsController.fetchedObjects?.count == 0 {
-            FlickrClient.getPhotos(latitude: pin.latitude, longitude: pin.longitude) { [self] response, error in
+            FlickrClient.getPhotos(latitude: pin.latitude, longitude: pin.longitude) { response, error in
                 
-                if error == nil && response?.photos.photo != nil && response?.photos.total == 0 {
+                if error == nil && response?.photos.photo != nil {
+                    print("album start saving")
                     guard let response = response
-                    else {return}
+                    else {return
+                        print("has been returned")
+                    }
                     for image in response.photos.photo {
+                        print("image has been returned")
                         let photo = Photos(context: self.dataController.viewContext)
                         photo.creationDate = Date()
-                        photo.imageURL = "https://live.staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
+                        photo.imageURL =
+                        "https://live.staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
                         photo.pin = self.pin
-                        
-                        do {
-                            try self.dataController.viewContext.save()
-                        } catch {
-                            fatalError("Unable to save photos: \(error.localizedDescription)")
-                        }
-                        
-                        self.collectionView.reloadData()
                     }
+//                    let photo = Photos(context: self.dataController.viewContext)
+//                    photo.creationDate = Date()
+//                    photo.imageURL =
+//                    "https://live.staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
+//                    "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=15e56bbb841bd04717a130697417617b&bbox=-10%2C-10%2C10%2C10&content_type=1&lat=" + "\(self.pin.latitude)" + "&lon=" + "\(self.pin.longitude)&page=\(Int.random(in: 0..<10))&pentr_page=100&radius=1&format=json&nojsoncallback=1"
+//                    photo.pin = self.pin
+                    
+                    do {
+                        try self.dataController.viewContext.save()
+                    } catch {
+                        fatalError("Unable to save photos: \(error.localizedDescription)")
+                    }
+                    print("album currently been saved")
+                    self.collectionView.reloadData()
+//                    for image in response.photos.photo {
+//                        print("for image")
+//                        let photo = Photos(context: self.dataController.viewContext)
+//                        photo.creationDate = Date()
+//                        photo.imageURL = "https://live.staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
+//                        photo.pin = self.pin
+//
+//                        do {
+//                            try self.dataController.viewContext.save()
+//                        } catch {
+//                            fatalError("Unable to save photos: \(error.localizedDescription)")
+//                        }
+//                        print("album currently been saved")
+//                        self.collectionView.reloadData()
+//                    }
                     print("album saved")
                     self.collectionView.reloadData()
                     
