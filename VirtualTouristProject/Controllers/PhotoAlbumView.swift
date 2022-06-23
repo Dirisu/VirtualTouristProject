@@ -176,25 +176,21 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        
-        
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
         
-        let photo = fetchedResultsController.object(at: indexPath)
+        let fetchRequest: NSFetchRequest<Photos> = Photos.fetchRequest()
         
-//        DispatchQueue.main.async {
-//
-//        }
+        let photo = fetchedResultsController.object(at : indexPath)
         
         if let url = photo.imageURL {
-            if let image = photo.image {
-                cell.imageCell.image = UIImage(data: image)
+            if let image = photo.image{
+            cell.imageCell.image = UIImage(data: image)
             } else {
                 FlickrClient.downloadPhotos(imageURL: URL(string: url)!) { data, error in
-                    if let data = data {
+                    if let data = data{
                         let image = UIImage(data: data)
                         cell.imageCell.image = image
-                        
+                       
                         do {
                             photo.image = data
                             try self.dataController.viewContext.save()
@@ -202,19 +198,17 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
                             fatalError("Unable to save photos: \(error.localizedDescription)")
                         }
                         
-                        print("photo visible")
-                        
                     } else {
                         fatalError("error:\(String(describing: error?.localizedDescription))")
+                    
                     }
-                        
                 }
             }
+        } else{
+            
+            let placeholderImage = UIImage(systemName: "Flickr")
+            cell.imageCell.image = placeholderImage
         }
-        else {
-            print("no data")
-        }
-        
         return cell
     }
     
