@@ -54,12 +54,27 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
         photoMapView.setRegion(region, animated: true)
     }
     
+    
+//    func handleDownload(data: Data?, error: Error?) {
+//        if error != nil {
+//            print("error in downloading data from a photo")
+//        } else {
+//            if data != nil {
+//                try? dataController.viewContext.save()
+//                print("one photo is saved")
+//                
+//            }
+//        }
+//
+//    }
+    
+    
     func getPhotos(){
         
         if fetchedResultsController.fetchedObjects?.count == 0 {
             FlickrClient.getPhotos(latitude: pin.latitude, longitude: pin.longitude) { [self] response, error in
                 
-                if error == nil && response?.photos.photo != nil && response?.photos.total != 0 {
+                if error == nil && response?.photos.photo != nil && response?.photos.total == 0 {
                     guard let response = response
                     else {return}
                     for image in response.photos.photo {
@@ -135,24 +150,43 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let photo = fetchedResultsController.object(at: indexPath)
+        
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as! CollectionViewCell
         
-        DispatchQueue.main.async {
-            if let url = photo.imageURL {
-                if let image = photo.image {
-                    FlickrClient.downloadPhotos(imageURL: URL(string: url)!) { data, error in
+        let photo = fetchedResultsController.object(at: indexPath)
+        
+//        DispatchQueue.main.async {
+//
+//        }
+        
+        if let url = photo.imageURL {
+            if let image = photo.image {
+                cell.imageCell.image = UIImage(data: image)
+            } else {
+                FlickrClient.downloadPhotos(imageURL: URL(string: url)!) { data, error in
+                    if let data = data {
+                        let image = UIImage(data: data)
+                        cell.imageCell.image = image
                         
-                            try? self.dataController.viewContext.save()
-                        cell.imageCell.image = UIImage(data: image)
-                            print("photo visible")
+                        do {
+                            photo.image = data
+                            try self.dataController.viewContext.save()
+                        } catch {
+                            fatalError("Unable to save photos: \(error.localizedDescription)")
+                        }
+                        
+                        print("photo visible")
+                        
+                    } else {
+                        fatalError("error:\(String(describing: error?.localizedDescription))")
                     }
+                        
                 }
             }
-            else {
-                print("no data")
-            }
+        }
+        else {
+            print("no data")
         }
         
         return cell
