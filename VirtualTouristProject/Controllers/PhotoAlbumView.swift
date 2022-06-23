@@ -15,22 +15,18 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     var pin : Pins!
     var photo: [Photos]! = []
     
-//    var photoArrays = [String]()
-//    var photosDb: [NSManagedObject] = []
-    
     var dataController : DataController!
     var fetchedResultsController: NSFetchedResultsController<Photos>!
     
     @IBOutlet weak var photoMapView: MKMapView!
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var newCollection: UIButton!
+    @IBOutlet weak var CollectionFlowLayout: UICollectionViewFlowLayout!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.delegate = self
-        collectionView.dataSource = self
         photoMapView.delegate = self
-        
+        setUpCollectionView()
         setupMap()
     }
     
@@ -54,21 +50,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
         photoMapView.setRegion(region, animated: true)
     }
     
-    
-//    func handleDownload(data: Data?, error: Error?) {
-//        if error != nil {
-//            print("error in downloading data from a photo")
-//        } else {
-//            if data != nil {
-//                try? dataController.viewContext.save()
-//                print("one photo is saved")
-//                
-//            }
-//        }
-//
-//    }
-    
-    
     func getPhotos(){
         
         if fetchedResultsController.fetchedObjects?.count == 0 {
@@ -88,12 +69,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
                         "https://live.staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
                         photo.pin = self.pin
                     }
-//                    let photo = Photos(context: self.dataController.viewContext)
-//                    photo.creationDate = Date()
-//                    photo.imageURL =
-//                    "https://live.staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
-//                    "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=15e56bbb841bd04717a130697417617b&bbox=-10%2C-10%2C10%2C10&content_type=1&lat=" + "\(self.pin.latitude)" + "&lon=" + "\(self.pin.longitude)&page=\(Int.random(in: 0..<10))&pentr_page=100&radius=1&format=json&nojsoncallback=1"
-//                    photo.pin = self.pin
                     
                     do {
                         try self.dataController.viewContext.save()
@@ -102,21 +77,6 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
                     }
                     print("album currently been saved")
                     self.collectionView.reloadData()
-//                    for image in response.photos.photo {
-//                        print("for image")
-//                        let photo = Photos(context: self.dataController.viewContext)
-//                        photo.creationDate = Date()
-//                        photo.imageURL = "https://live.staticflickr.com/\(image.server)/\(image.id)_\(image.secret).jpg"
-//                        photo.pin = self.pin
-//
-//                        do {
-//                            try self.dataController.viewContext.save()
-//                        } catch {
-//                            fatalError("Unable to save photos: \(error.localizedDescription)")
-//                        }
-//                        print("album currently been saved")
-//                        self.collectionView.reloadData()
-//                    }
                     print("album saved")
                     self.collectionView.reloadData()
                     
@@ -154,11 +114,17 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     // collection button action
     @IBAction func collectionButtonTapped(_ sender: Any) {
         
-        if let photoAlbum = fetchedResultsController.fetchedObjects{
-            for photo in photoAlbum{
+        newCollection.isEnabled = false
+        
+        if let album = fetchedResultsController.fetchedObjects{
+            for photo in album{
                 dataController.viewContext.delete(photo)
+                
                 setUpFetchedResultController()
+                
                 getPhotos()
+                
+                newCollection.isEnabled = true
             }
         }
     }
@@ -172,6 +138,10 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
         setUpFetchedResultController()
         return fetchedResultsController.sections?[section].numberOfObjects ?? 0
         
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
+        return true
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -224,5 +194,12 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
         setUpFetchedResultController()
     }
     
+    
+    fileprivate func setUpCollectionView() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        CollectionFlowLayout.scrollDirection = .vertical
+        self.collectionView.collectionViewLayout = self.CollectionFlowLayout
+    }
     
 }

@@ -106,6 +106,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="eIs-RF-pXh"/>
                     <connections>
+                        <outlet property="CollectionFlowLayout" destination="2Me-aW-smI" id="yQD-GB-wKl"/>
                         <outlet property="collectionView" destination="DGH-3d-PJb" id="AmO-xu-BsU"/>
                         <outlet property="newCollection" destination="w4z-4q-GtT" id="xOa-mU-sWB"/>
                         <outlet property="photoMapView" destination="7p9-N0-ZR9" id="5Cb-Vf-qdN"/>
