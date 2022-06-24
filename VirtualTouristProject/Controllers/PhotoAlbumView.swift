@@ -157,6 +157,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
             cell.imageCell.image = UIImage(data: image)
             } else {
                 FlickrClient.downloadPhotos(imageURL: URL(string: url)!) { data, error in
+                    cell.activityIndicator.startAnimating()
                     if let data = data{
                         let image = UIImage(data: data)
                         cell.imageCell.image = image
@@ -185,11 +186,14 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let objectSelected = fetchedResultsController.object(at: indexPath)
         dataController.viewContext.delete(objectSelected)
-        
+
         if var photos = fetchedResultsController.fetchedObjects{
             photos.remove(at: indexPath.row)
         }
-        
+
+        // newly added
+        collectionView.deleteItems(at: [indexPath])
+
         try? dataController.viewContext.save()
         setUpFetchedResultController()
     }

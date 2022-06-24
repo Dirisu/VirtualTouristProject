@@ -19,7 +19,6 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, NSFe
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         mapView.delegate = self
         mapView.isUserInteractionEnabled = true
         setUpFetchResultsController()

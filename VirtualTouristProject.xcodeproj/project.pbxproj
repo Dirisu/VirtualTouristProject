@@ -89,6 +89,16 @@
 			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
+		7024AD6E28651BD800625F3A /* subModels */ = {
+			isa = PBXGroup;
+			children = (
+				70F35DBB28522B16001AE33D /* DataController.swift */,
+				700D0784285C74AE001C38EF /* ZoomModel.swift */,
+				700D0786285C74E3001C38EF /* Cordinates.swift */,
+			);
+			path = subModels;
+			sourceTree = "<group>";
+		};
 		70F35D9A28522AF4001AE33D = {
 			isa = PBXGroup;
 			children = (
@@ -124,9 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				700D078A285C9DF8001C38EF /* Response */,
-				70F35DBB28522B16001AE33D /* DataController.swift */,
-				700D0784285C74AE001C38EF /* ZoomModel.swift */,
-				700D0786285C74E3001C38EF /* Cordinates.swift */,
+				7024AD6E28651BD800625F3A /* subModels */,
 			);
 			path = Model;
 			sourceTree = "<group>";

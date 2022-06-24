@@ -20,11 +20,6 @@ class FlickrClient {
         case getUrls(String, String, String)
         
         var stringValue: String {
-            //            switch self {
-            //
-            //            case.getPhotos (let latitude, let longitude):
-            //                return Endpoints.base + "&api_key=\(FlickrClient.apiKey)&lat=\(latitude)&lon=\(longitude)&per_page=20&page=\(Int.random(in: 1...10))&format=json&nojsoncallback=1"
-            //            }
             
             switch self {
                 
