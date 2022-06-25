@@ -82,6 +82,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
                     
                 } else {
                     print("No photo downloaded")
+
                 }
             }
         } else {
@@ -161,7 +162,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
                     if let data = data{
                         let image = UIImage(data: data)
                         cell.imageCell.image = image
-                       
+                        cell.activityIndicator.stopAnimating()
                         do {
                             photo.image = data
                             try self.dataController.viewContext.save()
