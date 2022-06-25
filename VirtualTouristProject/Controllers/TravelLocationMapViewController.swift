@@ -5,7 +5,6 @@
 //  Created by Marvellous Dirisu on 09/06/2022.
 //
 
-
 import UIKit
 import MapKit
 import CoreData
@@ -16,7 +15,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, NSFe
     var fetchedResultsController : NSFetchedResultsController<Pins>!
     
     @IBOutlet weak var mapView: MKMapView!
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.delegate = self
@@ -74,7 +73,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, NSFe
             debugPrint("pin: \(touchedCoordinates.latitude), \(touchedCoordinates.longitude)")
         }
     }
-
+    
     func addPin(lat : Double , long : Double){
         let pin = Pins(context: dataController!.viewContext)
         pin.latitude = lat
@@ -104,7 +103,7 @@ class TravelLocationMapViewController: UIViewController, MKMapViewDelegate, NSFe
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        mapView.deselectAnnotation(view.annotation, animated: false) 
+        mapView.deselectAnnotation(view.annotation, animated: false)
         let latitudeClicked = view.annotation?.coordinate.latitude
         let longitudeClicked = view.annotation?.coordinate.longitude
         

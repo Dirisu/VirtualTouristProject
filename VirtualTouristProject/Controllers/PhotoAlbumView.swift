@@ -82,7 +82,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
                     
                 } else {
                     print("No photo downloaded")
-
+                    
                 }
             }
         } else {
@@ -155,7 +155,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
         
         if let url = photo.imageURL {
             if let image = photo.image{
-            cell.imageCell.image = UIImage(data: image)
+                cell.imageCell.image = UIImage(data: image)
             } else {
                 FlickrClient.downloadPhotos(imageURL: URL(string: url)!) { data, error in
                     cell.activityIndicator.startAnimating()
@@ -172,7 +172,7 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
                         
                     } else {
                         fatalError("error:\(String(describing: error?.localizedDescription))")
-                    
+                        
                     }
                 }
             }
@@ -187,18 +187,17 @@ class PhotoAlbumViewController: UIViewController, MKMapViewDelegate, NSFetchedRe
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let objectSelected = fetchedResultsController.object(at: indexPath)
         dataController.viewContext.delete(objectSelected)
-
+        
         if var photos = fetchedResultsController.fetchedObjects{
             photos.remove(at: indexPath.row)
         }
-
+        
         // newly added
         collectionView.deleteItems(at: [indexPath])
-
+        
         try? dataController.viewContext.save()
         setUpFetchedResultController()
     }
-    
     
     fileprivate func setUpCollectionView() {
         collectionView.delegate = self
